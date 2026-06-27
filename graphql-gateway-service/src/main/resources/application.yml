@@ -1,0 +1,29 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: graphql-gateway-service
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+
+app:
+  services:
+    user-service-url: ${USER_SERVICE_URL:http://localhost:8081}
+    relation-service-url: ${RELATION_SERVICE_URL:http://localhost:8082}
+  security:
+    internal-api-key: ${INTERNAL_API_KEY:secret-internal-key}
+    jwt-secret: ${JWT_SECRET:demo-secret-key-change-me-123456789}
+
+logging:
+  level:
+    root: INFO
+    com.demo.gateway: DEBUG
+  file:
+    name: logs/graphql-gateway-service.log

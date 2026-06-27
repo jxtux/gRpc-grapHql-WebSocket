@@ -1,0 +1,41 @@
+type Query {
+  login(username: String!, password: String!): AuthPayload!
+  me(userId: ID!): User!
+  userRelations(userId: ID!): [UserRelationDetail!]!
+}
+
+type AuthPayload {
+  authenticated: Boolean!
+  token: String
+  user: User
+  message: String
+}
+
+type User {
+  id: ID!
+  username: String!
+  firstName: String
+  lastName: String
+  email: String
+  phone: String
+  profession: String
+  description: String
+  avatarUrl: String
+}
+
+type UserRelationDetail {
+  user: User!
+  type: RelationshipType!
+  status: RelationshipStatus!
+}
+
+enum RelationshipType {
+  FRIEND
+  FOLLOWER
+}
+
+enum RelationshipStatus {
+  PENDING
+  ACCEPTED
+  BLOCKED
+}

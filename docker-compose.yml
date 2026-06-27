@@ -1,0 +1,58 @@
+services:
+  usuario-service:
+    build: ./usuario-service
+    container_name: usuario-service
+    ports:
+      - "8081:8081"
+    environment:
+      INTERNAL_API_KEY: secret-internal-key
+
+  relaciones-service:
+    build: ./relaciones-service
+    container_name: relaciones-service
+    ports:
+      - "8082:8082"
+    environment:
+      INTERNAL_API_KEY: secret-internal-key
+
+  graphql-gateway-service:
+    build: ./graphql-gateway-service
+    container_name: graphql-gateway-service
+    ports:
+      - "8080:8080"
+    environment:
+      INTERNAL_API_KEY: secret-internal-key
+      USER_SERVICE_URL: http://usuario-service:8081
+      RELATION_SERVICE_URL: http://relaciones-service:8082
+      JWT_SECRET: demo-secret-key-change-me-123456789
+    depends_on:
+      - usuario-service
+      - relaciones-service
+
+  chat-grpc-service:
+    build: ./chat-grpc-service
+    container_name: chat-grpc-service
+    ports:
+      - "8090:8090"
+      - "9090:9090"
+
+  chat-websocket-gateway:
+    build: ./chat-websocket-gateway
+    container_name: chat-websocket-gateway
+    ports:
+      - "8086:8086"
+    environment:
+      CHAT_GRPC_HOST: chat-grpc-service
+      CHAT_GRPC_PORT: 9090
+      JWT_SECRET: demo-secret-key-change-me-123456789
+    depends_on:
+      - chat-grpc-service
+
+  cliente-angular:
+    build: ./cliente-angular
+    container_name: cliente-angular
+    ports:
+      - "4200:80"
+    depends_on:
+      - graphql-gateway-service
+      - chat-websocket-gateway

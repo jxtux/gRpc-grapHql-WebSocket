@@ -1,0 +1,183 @@
+{
+  "info": {
+    "name": "GraphQL Microservices Demo - REST y GraphQL",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "GraphQL - Login usuario1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/graphql",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "graphql"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"query { login(username: \\\"usuario1\\\", password: \\\"1234\\\") { authenticated token message user { id username firstName lastName email avatarUrl } } }\"}"
+        }
+      }
+    },
+    {
+      "name": "GraphQL - Panel usuario1",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "Authorization",
+            "value": "Bearer {{token}}"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/graphql",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "graphql"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"query\": \"query { me(userId: 1) { id username firstName lastName email phone profession description avatarUrl } userRelations(userId: 1) { type status user { id username firstName lastName email avatarUrl } } }\"}"
+        }
+      }
+    },
+    {
+      "name": "usuario-service - login interno",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Api-Key",
+            "value": "secret-internal-key"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8081/api/users/login",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "users",
+            "login"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"username\": \"usuario1\", \"password\": \"1234\"}"
+        }
+      }
+    },
+    {
+      "name": "usuario-service - batch",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          },
+          {
+            "key": "X-Internal-Api-Key",
+            "value": "secret-internal-key"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8081/api/users/batch",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8081",
+          "path": [
+            "api",
+            "users",
+            "batch"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\"ids\": [2, 3, 4, 5, 6]}"
+        }
+      }
+    },
+    {
+      "name": "relaciones-service - relaciones usuario1",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "X-Internal-Api-Key",
+            "value": "secret-internal-key"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8082/api/relationships/user/1",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8082",
+          "path": [
+            "api",
+            "relationships",
+            "user",
+            "1"
+          ]
+        }
+      }
+    },
+    {
+      "name": "chat-websocket-gateway - health",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "http://localhost:8086/api/chat-gateway/health",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8086",
+          "path": [
+            "api",
+            "chat-gateway",
+            "health"
+          ]
+        }
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "token",
+      "value": "PEGA_AQUI_EL_TOKEN"
+    }
+  ]
+}

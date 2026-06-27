@@ -1,0 +1,20 @@
+<div class="login-page">
+  <section class="login-card">
+    <h1>Demo GraphQL</h1>
+    <p>Ingresa con un usuario de prueba.</p>
+
+    <label>Usuario</label>
+    <input [(ngModel)]="username" placeholder="usuario1" />
+
+    <label>Contraseña</label>
+    <input [(ngModel)]="password" type="password" placeholder="1234" />
+
+    <button (click)="ingresar()" [disabled]="loading">
+      {{ loading ? 'Ingresando...' : 'Ingresar' }}
+    </button>
+
+    @if (error) {
+      <div class="error">{{ error }}</div>
+    }
+  </section>
+</div>
